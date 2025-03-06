@@ -109,6 +109,6 @@ def process_csv(input_path, output_path):
 
 # Example usage:
 if __name__ == "__main__":
-    input_csv = "chinese phrase mapping.csv"  # Adjust if needed
-    output_csv = "converted_mapping_updated2.csv"  # The output file name
+    input_csv = "pinyin.csv"  # Adjust if needed
+    output_csv = "pinyin-converted.csv"  # The output file name
     process_csv(input_csv, output_csv)
