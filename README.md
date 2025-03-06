@@ -1,9 +1,9 @@
 # pinyin2australian English Approximation Pinyin Converter
-My attempt at turning pinyin into something that I can read directily on an autocue and not be horribly wrong
+My attempt at turning pinyin into something that I can read directly on an autocue and not be horribly wrong by doing stuff like saying kwing when you read qing.
 
 ## Overview
 
-This project implements a converter that transforms standard Mandarin Pinyin into a New Australian English Approximation format. The converter applies a comprehensive set of conversion rules to provide a phonetic transcription that aims to be intuitive for learners of Mandarin.
+This project implements a converter that transforms standard Mandarin Pinyin into a New Australian English Approximation format. The converter applies a comprehensive set of conversion rules to provide a phonetic transcription that aims to be intuitive for Mandarin learners.
 
 ## Features
 
@@ -52,11 +52,11 @@ This project implements a converter that transforms standard Mandarin Pinyin int
 ## Usage
 
 1. **Setup:**  
-   Ensure you have Python 3 installed. Clone or download this repository and place your input CSV file (which should have a column named `Pinyin`) in the project directory.
+   Ensure you have Python 3 installed. Clone or download this repository and place your input CSV file (which should have a column named `Pinyin`) in the project directory. By default the name of this file should be pinyin.csv. It probably helps if each field in the CSV is surrounded by quote marks to make it super explicit what is content and what it seperator, some systems have problem with unicode and this seems to help.
 
 2. **Running the Converter:**  
    Run the script by executing:
    ```bash
    python pinyin_converter.py
 
-   By default, the script writes its output to a file named pinyin-converted.csv. If you'd like to use a different file name or location, you can change this by modifying the output_csv (or output_path) variable in the script.
+   By default, the script writes its output to a file named pinyin-converted.csv. If you'd like to use a different file name or location, you can change this by modifying the script's output_csv (or output_path) variable.
