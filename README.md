@@ -57,7 +57,5 @@ This project implements a converter that transforms standard Mandarin Pinyin int
 2. **Running the Converter:**  
    Run the script by executing:
    ```bash
-   python pinyin_converter.py```
-   
-
+   python pinyin_converter.py
 By default, the script writes its output to a file named pinyin-converted.csv. If you'd like to use a different file name or location, you can change this by modifying the script's output_csv (or output_path) variable.
