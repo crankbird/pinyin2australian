@@ -85,8 +85,16 @@ def convert_pinyin(text):
     text = re.sub(r'er\b', 'arr', text, flags=re.UNICODE)
     
     # Updated Rule 10: Neutral Tone Handling
-    # For syllables like "de", "le", "re", preserve the initial consonant:
-    text = re.sub(r'\b([bpmfdtnlgkhjqxrzcsyw])e\b', r'\1uh', text, flags=re.UNICODE)
+    # For syllables like "de", "le", "re", preserve the initial consonant.
+    # However, if the final syllable is attached to a preceding one (e.g., "zhēnde"),
+    # insert a hyphen before the neutral tone syllable and convert it.
+    text = re.sub(
+        r'([a-zA-Zāáǎàēéěèīíǐìōóǒòūúǔùü]+)([bpmfdtnlgkhjqxrzcsyw])e\b',
+        r'\1-\2uh',
+        text,
+        flags=re.UNICODE
+    )
+    
     # For standalone "e", convert to "uh"
     text = re.sub(r'\be\b', 'uh', text, flags=re.UNICODE)
     
