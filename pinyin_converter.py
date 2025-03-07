@@ -56,6 +56,15 @@ def replace_y_vowels(match):
         result += vowel_mapping.get(char, char)
     return f"(y){result}"
 
+ # Custom Rule: Map 'a' to 'e' in nasal diphthong contexts. - rule 13 (?)
+    # This targets syllables where 'a' is immediately followed by an 'n'
+    # and is preceded by one or more vowels (as in diphthongs like 'ian' or 'uan').
+def replace_nasal_a(match):
+    # Groups:
+    # group(1) = preceding vowel(s) (e.g. the "i" in "ian")
+    # group(2) = the letter 'a'
+    # group(3) = the nasal element (e.g. "n")
+    return f"{match.group(1)}e{match.group(3)}"
 
 def normalize_text(text):
     """Normalize text to NFC form to ensure accented characters are standard."""
@@ -123,6 +132,12 @@ def convert_pinyin(text):
     text = re.sub(r'ai', 'ahì', text, flags=re.UNICODE)
     text = re.sub(r'ei', 'ey', text, flags=re.UNICODE)
     text = re.sub(r'ou', 'ow', text, flags=re.UNICODE)
+
+   
+
+# Rule 13 0 for when a sounds like e as in ten Apply this substitution before the general rule for 'a'.
+text = re.sub(r'([iīíǐìuūúǔùü]+)a(n)', replace_nasal_a, text, flags=re.UNICODE)
+
     
     # Rule 3: Open Vowel "a" Adjustment:
     # Append an "h" to any "a" with a tone diacritic (ā, á, ǎ, à) if not already followed by "h"
