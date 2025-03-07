@@ -10,6 +10,54 @@ import pandas as pd
 import re
 import unicodedata
 
+import re
+
+# Mapping for vowels (and accented vowels) following an initial y.
+# For example, y + a → (y)ah, y + e → (y)eh, y + i → (y)ee, y + o → (y)oh.
+# For y followed by u, we assume the intended sound is the umlaut ü.
+vowel_mapping = {
+    'a': 'ah',
+    'ā': 'āh',
+    'á': 'áh',
+    'ǎ': 'ǎh',
+    'à': 'àh',
+    'e': 'eh',
+    'ē': 'ēh',
+    'é': 'éh',
+    'ě': 'ěh',
+    'è': 'èh',
+    'i': 'ee',
+    'ī': 'ēe',
+    'í': 'ée',
+    'ǐ': 'ĕe',
+    'ì': 'èe',
+    'o': 'oh',
+    'ō': 'ōh',
+    'ó': 'óh',
+    'ǒ': 'ŏh',
+    'ò': 'òh',
+    # For y+u we want to output a umlaut; if an accented form appears,
+    # you might choose to add an h, or simply leave it as ü.
+    'u': 'ü',  
+    'ū': 'ūh',
+    'ú': 'úh',
+    'ǔ': 'ŭh',
+    'ù': 'ùh',
+    'ü': 'ü'  # Leave umlaut unchanged.
+}
+
+def replace_y_vowels(match):
+    """Replace an initial 'y' and its following vowel sequence with custom mapping.
+    
+    For example, 'yībán' becomes '(y)ēe-bán' and 'yueh' becomes '(y)üeh'.
+    """
+    vowel_seq = match.group(1)
+    result = ""
+    for char in vowel_seq:
+        result += vowel_mapping.get(char, char)
+    return f"(y){result}"
+
+
 def normalize_text(text):
     """Normalize text to NFC form to ensure accented characters are standard."""
     return unicodedata.normalize('NFC', text)
@@ -39,6 +87,11 @@ def convert_pinyin(text):
     if not isinstance(text, str):
         return text
     text = normalize_text(text)
+
+    
+    # Insert this custom rule early in the conversion process. It turns things like yi into (y)ee 
+    # Rule 12 - The regex below matches a word-boundary, a lowercase "y", and then one or more vowels (including accented ones).
+    text = re.sub(r'\by([aāáǎàeēéěèiīíǐìoōóǒòuūúǔùü]+)', replace_y_vowels, text, flags=re.UNICODE)
     
     # Rule 2: Special case for "shi"
     def replace_shi(match):
